@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+UcsConfig Version=0.1
+4-September-2013
+Created by Tim Cerling
+tcerling@cisco.com
+
+Take care in editing this file.  It is better to comment out the detail of an object 
+rather than deleting it if you do not want to enter values.  This will retain the 
+structure of the XML should you want to reuse it with more or different values in the 
+future.  For example, if you have already defined Management IP addresses and do not
+want to make any additional changes or additions, you could do something like this:
+
+<MgmtIP>
+#    <Pool Name='MgmtIP' Descr='Service Profile management IPs' >
+#      <Order>sequential </Order>
+#      <Start>10.5.177.200 </Start>
+#      <End>10.5.177.249 </End>
+#      <Gateway>10.5.177.1 </Gateway>
+#      <PrimaryDNS>0.0.0.0 </PrimaryDNS>
+#      <SecondaryDNS>0.0.0.0 </SecondaryDNS>
+#    </Pool>
+  </MgmtIP>
+
+
+-->
+
+<VSPEX>
+
+<!-- UCSM IP address.  Can be either FQDN or numeric. -->
+  <UCSMIP>10.29.130.100 </UCSMIP>
+
+<!-- Timezone for this UCS domain -->
+  <TimeZone>America/Los_Angeles (Pacific Time) </TimeZone>
+
+<!-- List of FQDN or IP addresses of NTP servers -->
+  <NTP>
+    <Var Name='1.ntp.esl.cisco.com' />
+    <Var Name='2.ntp.esl.cisco.com' />
+  </NTP>
+
+  <MgmtIP>
+    <Pool Name='MgmtIP' Descr='Service Profile management IPs' >
+      <Order>sequential </Order>
+      <Start>10.5.177.200 </Start>
+      <End>10.5.177.249 </End>
+      <Gateway>10.5.177.1 </Gateway>
+      <PrimaryDNS>0.0.0.0 </PrimaryDNS>
+      <SecondaryDNS>0.0.0.0 </SecondaryDNS>
+    </Pool>
+  </MgmtIP>
+
+<!-- Optional CallHome definitions.  To make use of this, define InUse to equal 1 -->
+  <CallHome>
+    <InUse>0 </InUse>  <!-- To define, InUse=1.  To not define, InUse=0. -->
+    <SmtpSrv>smtprelay.customer.com </SmtpSrv>
+    <Address>123 Main Street, Anytown, CA 54321 </Address>
+    <ContactName>First Last </ContactName>
+    <ContactPhone>+15551234567 </ContactPhone>
+    <ContactEmail>contact@customer.com </ContactEmail>
+    <CustomerID>12345 </CustomerID>
+    <ContractID>12345 </ContractID>
+    <SiteID>12345 </SiteID>
+    <SmtpFrom>UCSstringCallHome@customer.com </SmtpFrom>
+    <SmtpRecipient>contact@customer.com </SmtpRecipient>
+  </CallHome>
+
+<!-- Chassis Discovery - 1-link, 2-link, 4-link, 8-link, platform-max -->
+  <ChassisDiscovery>2-link </ChassisDiscovery>
+
+<!-- Sub-Organizations to create. -->
+<!-- NOTE:  Only supports sub-organizations to root.  -->
+  <SubOrg>
+    <Var Name='VSPEX' Descr='For all VSPEX work' />
+  </SubOrg>
+
+<!--SAN WWPN.  Provide EMC SPA/SPB primary and secondary ports WWPNs.  Used for creating boot policy. -->
+  <SANWWPN>
+    <SPAprimary>50:06:01:65:08:60:06:A1 </SPAprimary>
+    <SPAsecondary>50:06:01:64:08:60:06:A1 </SPAsecondary>
+    <SPBprimary>50:06:01:6D:08:60:06:A1 </SPBprimary>
+    <SPBsecondary>50:06:01:6C:08:60:06:A1 </SPBsecondary>
+  </SANWWPN>
+
+<!-- Associate QoS with custom names -->
+<!-- NOTE: assigning a value forces an MTU of 9000 -->
+  <QoS>
+    <Platinum>LiveMigration </Platinum>
+    <Gold>iSCSI </Gold>
+    <Silver> </Silver>
+    <Bronze> </Bronze>
+  </QoS>
+
+<!-- Power Control Policy -->
+  <PowerPolicy>
+    <Var Name='default' Priority='no-cap' />
+    <Var Name='Cap_1' Priority='1' /> 
+    <Var Name='Cap_2' Priority='2' /> 
+    <Var Name='Cap_3' Priority='3' /> 
+    <Var Name='Cap_4' Priority='4' /> 
+    <Var Name='Cap_5' Priority='5' /> 
+    <Var Name='Cap_6' Priority='6' /> 
+    <Var Name='Cap_7' Priority='7' /> 
+    <Var Name='Cap_8' Priority='8' /> 
+    <Var Name='Cap_9' Priority='9' /> 
+    <Var Name='Cap_10' Priority='10' /> 
+    <Var Name='NoCap' Priority='no-cap' /> 
+  </PowerPolicy>
+
+<!-- Scrub Policies -->
+  <ScrubPolicy>
+    <Var Name='NoScrub' Descr='Do not scrub' DiskScrub='no' BiosScrub='no' />
+    <Var Name='DiskScrub' Descr='Scrub disk' DiskScrub='yes' BiosScrub='no' />
+    <Var Name='BiosScrub' Descr='Scrub Bios' DiskScrub='no' BiosScrub='yes' />
+    <Var Name='AllScrub' Descr='Scrub disk and Bios' DiskScrub='yes' BiosScrub='yes' />
+  </ScrubPolicy>
+
+<!-- Maintenance policies -->
+  <MaintenancePolicy>
+    <Var Name='Immediate' Descr='Immediately reboot on profile change' Policy='immediate' />
+    <Var Name='UserAck' Descr='User acknowledge reboot on profile change' Policy='user-ack' />
+    <Var Name='Timer-auto' Descr='Timer reboot on default schedule' Policy='timer-automatic' />
+  </MaintenancePolicy>
+
+<!-- Local Disk Policy -->
+  <DiskPolicy>
+    <Var Name='AnyConfiguration' Mode='any-configuration' Descr='Any Disk Configuration' Protect='yes' />
+    <Var Name='NoLocal' Mode='no-local-storage' Descr='Ignore local storage' Protect='yes' />
+    <Var Name='NoRAID' Mode='no-raid' Descr='No RAID storage' Protect='yes' />
+    <Var Name='RAID0' Mode='raid-striped' Descr='RAID 0 Striped' Protect='yes' />
+    <Var Name='RAID1' Mode='raid-mirrored' Descr='RAID 1 Mirrored' Protect='yes' />
+    <Var Name='RAID10' Mode='raid-mirrored-striped' Descr='RAID 10 Mirrored and Striped' Protect='yes' />
+    <Var Name='RAID5' Mode='raid-striped-parity' Descr='RAID 5 Striped Parity' Protect='yes' />
+    <Var Name='RAID6' Mode='raid-striped-dual-parity' Descr='RAID 6 Striped Dual Parity' Protect='yes' />
+  </DiskPolicy>
+
+<!-- BIOS Policy.  Currently only No Quiet Boot is programmed. -->
+<!-- NOTE:  Do not change this entry.  Use UCSM to create different BIOS policies -->
+  <BIOSPolicy>
+    <Var Name='NoQuietBoot' Descr= 'No quiet boot' VpQuietBoot='disabled' />
+  </BIOSPolicy>
+
+<!-- vNIC/vHBA Placement Policy.  -->
+<!-- NOTE:  Do not change this entry.  Use UCSM to create different placement policies -->
+<!-- If these entries get changed, the logic will also need to be changed to reflect -->
+  <PlacementPolicy>
+    <Var Name='AssignedOnly' SlotMapping='round-robin' Selection='assigned-only' />
+    <Var Name='ExcludeDynamic' SlotMapping='round-robin' Selection='exclude-dynamic' />
+    <Var Name='ExcludeUnassign' SlotMapping='round-robin' Selection='exclude-unassigned' />
+  </PlacementPolicy>
+
+<!-- FI port definitions.  Assumed FI-A and FI-B are configured identically.  Recommended to include UsrLbl. 
+     Defining role as '' causes no change to the configuration 
+     Last four variables only applicable to Appliance role for iSCSI and SMB.
+
+     NOTE: Currently only supports 6248UP
+
+     NOTE - NOTE - NOTE  FC ports are special.  They are defined in the FCslot1 and FCslot2 objects, not here.
+     See description for FCslot1 and FCslot2 objects.
+-->
+
+  <FI>
+    <Var SlotID='1' PortID='1' Role='Server' UsrLbl='Blade Server' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='2' Role='Server' UsrLbl='Blade Server' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='3' Role='Server' UsrLbl='Blade Server' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='4' Role='Server' UsrLbl='Blade Server' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='5' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='6' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='7' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='8' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='9' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='10' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='11' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='12' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='13' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='14' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='15' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='16' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='17' Role='Uplink' UsrLbl='Uplink Port' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='18' Role='Uplink' UsrLbl='Uplink Port' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='19' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='20' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='21' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='22' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='23' Role='Appliance' UsrLbl='10 GE SMB' VLAN='SMB' Native='no' Mode='Access' QoS='gold' />
+    <Var SlotID='1' PortID='24' Role='Appliance' UsrLbl='10 GE SMB' VLAN='SMB' Native='no' Mode='Access' QoS='gold' />
+    <Var SlotID='1' PortID='25' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='26' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='27' Role='' UsrLbl='' VLAN='' Native='no' Mode='Access' QoS='n/a' />
+    <Var SlotID='1' PortID='28' Role='' UsrLbl='' VLAN='' Native='no' Mode='Access' QoS='n/a' />
+    <Var SlotID='1' PortID='29' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='30' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='31' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='1' PortID='32' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='1' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='2' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='3' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='4' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='5' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='6' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='7' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='8' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='9' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='10' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='11' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='12' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='13' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='14' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='15' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+    <Var SlotID='2' PortID='16' Role='' UsrLbl='' VLAN='n/a' Native='n/a' Mode='n/a' QoS='n/a' />
+  </FI>
+
+<!-- Fibre Channel port defintions.  Assumes FC ports configured on same ports on each FI.
+
+     The PortID value is the port number for the first port to be defined as FC.  All following ports
+     will be included as FC ports.  FCslot1 is for Module 1.  FCslot2 is for expansion module 2 and it
+     assumes that it is a unified ports expansion module.
+-->
+  <FCslot1 PortID='' UsrLbl='' />
+  <FCslot2 PortID='' UsrLbl='' />
+
+<!-- Port Channel definition.  Assumes PC configured on same ports on each FI -->
+  <PC>
+    <AName>VPC201 </AName>
+    <APortID>201 </APortID>
+    <BName>VPC202 </BName>
+    <BPortID>202 </BPortID>
+    <Slot>1 </Slot>
+    <Port1>17 </Port1>
+    <Port2>18 </Port2>
+  </PC>
+
+<!-- Various pools.  Multiple pools of same type can be defined. -->
+  <Pools>
+    <Var Type='MAC' Name='VSPEX-99-MAC' From='00:25:B5:99:00:00' To='00:25:B5:99:00:FF' Order='sequential' Org='VSPEX' Descr='' />
+    <Var Type='UUID' Name='VSPEX-99-UUID' From='0099-000000000001' To='0099-000000000040' Order='sequential' Org='VSPEX' Descr='' />
+    <Var Type='WWNN' Name='VSPEX-99-WWNN' From='20:00:00:25:B5:99:00:00' To='20:00:00:25:B5:99:00:3F' Order='sequential' Org='VSPEX' Descr='' />
+    <Var Type='WWPN' Name='VSPEX-99-WWPN' From='20:00:00:25:B5:99:00:40' To='20:00:00:25:B5:99:00:FF' Order='sequential' Org='VSPEX' Descr='' />
+  </Pools>
+
+<!-- VLAN definitions -->
+<!-- Use ATag for common configuration VLAN tag -->
+<!-- Fabric can be defined as Common, Diff, FabA, or FabB -->
+  <VLANs>
+    <Var Name='Mgmt' Fabric='Common' ATag='1' BTag='' DefaultNet="yes" />
+    <Var Name='VMaccess' Fabric='Common' ATag='10' BTag='' DefaultNet="no" />
+    <Var Name='CSV' Fabric='Common' ATag='12' BTag='' DefaultNet="no" />
+    <Var Name='LiveMigration' Fabric='Common' ATag='11' BTag='' DefaultNet="no" />
+    <Var Name='ClusComm' Fabric='Common' ATag='13' BTag='' DefaultNet="no" />
+    <Var Name='iSCSI' Fabric='Diff' ATag='18' BTag='19' DefaultNet="no" />
+    <Var Name='SMB' Fabric='Diff' ATag='16' BTag='17' DefaultNet="no" />
+    <Var Name='VEM' Fabric='Common' ATag='100' BTag='' DefaultNet="no" />
+  </VLANs>
+
+<!-- VNIC template definitions -->
+  <VNICtemplate>
+    <Var Name='Mgmt' MTU='1500' Fabric='A-B' MACpool='VSPEX-99-MAC' Qos='' VLAN='Mgmt' Order='1' Type='updating-template' Native='yes' Org='root' />
+    <Var Name='CSV' MTU='9000' Fabric='A-B' MACpool='VSPEX-99-MAC' Qos='' VLAN='CSV' Order='2' Type='updating-template' Native='yes' Org='root' />
+    <Var Name='LiveMigration' MTU='9000' Fabric='A-B' MACpool='VSPEX-99-MAC' Qos='LiveMigration' VLAN='LiveMigration' Order='3' Type='updating-template' Native='yes' Org='root' />
+    <Var Name='VMaccess' MTU='1500' Fabric='B-A' MACpool='VSPEX-99-MAC' Qos='' VLAN='VMaccess' Order='4' Type='updating-template' Native='no' Org='root' />
+    <Var Name='ClusComm' MTU='1500' Fabric='B-A' MACpool='VSPEX-99-MAC' Qos='' VLAN='ClusComm' Order='5' Type='updating-template' Native='no' Org='root' />
+    <Var Name='iSCSI-A' MTU='9000' Fabric='A-B' MACpool='VSPEX-99-MAC' Qos='iSCSI' VLAN='iSCSI' Order='6' Type='updating-template' Native='no' Org='root' />
+    <Var Name='iSCSI-B' MTU='9000' Fabric='B-A' MACpool='VSPEX-99-MAC' Qos='iSCSI' VLAN='iSCSI' Order='7' Type='updating-template' Native='no' Org='root' />
+    <Var Name='SMB-A' MTU='9000' Fabric='A-B' MACpool='VSPEX-99-MAC' Qos='iSCSI' VLAN='SMB' Order='8' Type='updating-template' Native='no' Org='root' />
+    <Var Name='SMB-B' MTU='9000' Fabric='B-A' MACpool='VSPEX-99-MAC' Qos='iSCSI' VLAN='SMB' Order='9' Type='updating-template' Native='no' Org='root' />
+    <Var Name='VEM' MTU='1500' Fabric='B-A' MACpool='VSPEX-99-MAC' Qos='' VLAN='VEM' Order='10' Type='updating-template' Native='no' Org='root' />
+  </VNICtemplate>
+
+<!-- Virtual HBA templates -->
+  <VHBAtemplate>
+    <Var Name='VSPEX-99-FabA' Descr='Fabric A vHBA' Fabric='A' VSAN='default' Type='updating-template' WWNpool='VSPEX-99-WWPN' Qos='' Org='VSPEX' />
+    <Var Name='VSPEX-99-FabB' Descr='Fabric B vHBA' Fabric='B' VSAN='default' Type='updating-template' WWNpool='VSPEX-99-WWPN' Qos='' Org='VSPEX' />
+  </VHBAtemplate>
+
+<!-- Boot Policy -->
+<!-- Order of Vars specifies order of devices in boot policy -->
+<!-- Type Local can have device1 equal to cdrom, localdisk, or floppy  -->
+  <BootPolicy>
+    <PolicyName Name='VSPEX-SAN-A-Boot' Descr='Fibre Channel Boot Fabric A' Org='VSPEX' >
+      <Var Type='Local' Device1='cdrom' Device2='' PrimaryFabric='' />
+      <Var Type='VHBA' Device1='FabChn-A' Device2='FabChn-B' PrimaryFabric='A' />
+    </PolicyName>
+    <PolicyName Name='VSPEX-SAN-B-Boot' Descr='Fibre Channel Boot Fabric B' Org='VSPEX' >
+      <Var Type='Local' Device1='cdrom' Device2='' PrimaryFabric='' />
+      <Var Type='VHBA' Device1='FabChn-B' Device2='FabChn-A' PrimaryFabric='B' />
+    </PolicyName>
+  </BootPolicy>
+
+<!-- Service Profile Template -->
+  <SPTemplate>
+    <Template>
+      <Name>VSPEX-99-BootA </Name>
+      <Descr>VSPEX-99 Boot from SAN Fabric A </Descr>
+      <BIOSProfileName> </BIOSProfileName>
+      <BootPolicyName>VSPEX-SAN-A-Boot </BootPolicyName>
+      <LocalDiskPolicy>NoLocal </LocalDiskPolicy>
+      <MgmtIPpool>MgmtIP </MgmtIPpool>
+      <PowerPolicyName>NoCap </PowerPolicyName>
+      <ScrubPolicyName>NoScrub </ScrubPolicyName>
+      <UUIDpool>VSPEX-99-UUID </UUIDpool>
+      <MaintPolicyName>UserAck </MaintPolicyName>
+      <HostFwPolicyName> </HostFwPolicyName>
+      <MgmtAccessPolicyName> </MgmtAccessPolicyName>
+      <MgmtFwPolicyName> </MgmtFwPolicyName>
+      <StatsPolicyName>default </StatsPolicyName>
+      <Org>VSPEX </Org>
+      <WwnnPoolName>VSPEX-99-WWNN </WwnnPoolName>
+      <VNICs>
+        <Var Name='Mgmt' Templ='Mgmt' />
+        <Var Name='LiveMigration' Templ='LiveMigration' />
+        <Var Name='CSV' Templ='CSV' />
+        <Var Name='VMaccess' Templ='VMaccess' />
+        <Var Name='ClusComm' Templ='ClusComm' />
+        <Var Name='VEM' Templ='VEM' />
+      </VNICs>
+      <VHBAs>
+        <Var Name='FabChn-A' Templ='VSPEX-99-FabA'/>  <!-- Name must match value of Devicex in boot policy -->
+        <Var Name='FabChn-B' Templ='VSPEX-99-FabB'/>
+      </VHBAs>
+    </Template>
+    <Template>
+      <Name>VSPEX-99-BootB </Name>
+      <Descr>Boot from SAN Fabric B </Descr>
+      <BIOSProfileName> </BIOSProfileName>
+      <BootPolicyName>VSPEX-SAN-B-Boot </BootPolicyName>
+      <LocalDiskPolicy>NoLocal </LocalDiskPolicy>
+      <MgmtIPpool>MgmtIP </MgmtIPpool>
+      <PowerPolicyName>NoCap </PowerPolicyName>
+      <ScrubPolicyName>NoScrub </ScrubPolicyName>
+      <UUIDpool>VSPEX-99-UUID </UUIDpool>
+      <MaintPolicyName>UserAck </MaintPolicyName>
+      <HostFwPolicyName> </HostFwPolicyName>
+      <MgmtAccessPolicyName> </MgmtAccessPolicyName>
+      <MgmtFwPolicyName> </MgmtFwPolicyName>
+      <StatsPolicyName>SPT-Test </StatsPolicyName>
+      <Org>VSPEX </Org>
+      <WwnnPoolName>VSPEX-99-WWNN </WwnnPoolName>
+      <VNICs>
+        <Var Name='Mgmt' Templ='Mgmt' />
+        <Var Name='LiveMigration' Templ='LiveMigration' />
+        <Var Name='CSV' Templ='CSV' />
+        <Var Name='VMaccess' Templ='VMaccess' />
+        <Var Name='ClusComm' Templ='ClusComm' />
+        <Var Name='VEM' Templ='VEM' />
+      </VNICs>
+      <VHBAs>
+        <Var Name='FabChn-B' Templ='VSPEX-99-FabB' />X
+        <Var Name='FabChn-A' Templ='VSPEX-99-FabA' />
+      </VHBAs>
+    </Template>
+  </SPTemplate>
+
+  <ServiceProfile>
+    <Var Name='VSPEX-01' Templ='VSPEX-99-BootA' Org='VSPEX' />
+    <Var Name='VSPEX-02' Templ='VSPEX-99-BootB' Org='VSPEX' />
+    <Var Name='VSPEX-03' Templ='VSPEX-99-BootA' Org='VSPEX' />
+    <Var Name='VSPEX-04' Templ='VSPEX-99-BootB' Org='VSPEX' />
+    <Var Name='VSPEX-05' Templ='VSPEX-99-BootA' Org='VSPEX' />
+    <Var Name='VSPEX-06' Templ='VSPEX-99-BootB' Org='VSPEX' />
+  </ServiceProfile>
+
+</VSPEX>
